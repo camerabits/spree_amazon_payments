@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
   s.description = ''
   s.required_ruby_version = '>= 1.9.3'
 
-  s.author    = 'Amazon Payments'
+  s.authors    = ['Amazon Payments', 'Camera Bits Inc.']
 
   s.require_path = 'lib'
   s.requirements << 'none'
