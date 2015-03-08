@@ -120,7 +120,7 @@ class Spree::AmazonController < Spree::StoreController
 
     if @order.completed?
       @current_order = nil
-      flash.notice = Spree.t(:order_processed_successfully)
+      flash.notice = t(:order_processed_successfully)
     end
 
     if @order.complete?
