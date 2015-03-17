@@ -39,13 +39,17 @@ module Spree
       order = Spree::Order.find_by_number(gateway_options[:order_id].split("-")[0])
       load_amazon_mws(order.amazon_order_reference_id)
       response = @mws.authorize(gateway_options[:order_id], amount / 100.0, Spree::Config.currency)
+
       if response["ErrorResponse"]
         return ActiveMerchant::Billing::Response.new(false, response["ErrorResponse"]["Error"]["Message"], response)
       end
       t = order.amazon_transaction
       t.authorization_id = response["AuthorizeResponse"]["AuthorizeResult"]["AuthorizationDetails"]["AmazonAuthorizationId"]
       t.save
-      return ActiveMerchant::Billing::Response.new(response["AuthorizeResponse"]["AuthorizeResult"]["AuthorizationDetails"]["AuthorizationStatus"]["State"] == "Open", "Success", response)
+
+      authorization_state = response["AuthorizeResponse"]["AuthorizeResult"]["AuthorizationDetails"]["AuthorizationStatus"]["State"]
+      authorization_result = authorization_state == "Open" || authorization_state == "Closed"
+      return ActiveMerchant::Billing::Response.new(authorization_result, "Success", response)
     end
 
     def capture(amount, amazon_checkout, gateway_options={})

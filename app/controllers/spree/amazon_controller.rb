@@ -59,8 +59,9 @@ class Spree::AmazonController < Spree::StoreController
       redirect_to address_amazon_order_path, :notice => "Unable to load Address data from Amazon"
     end
 
-    packages = current_order.shipments.map { |s| s.to_package }
-    @differentiator = Spree::Stock::Differentiator.new(current_order, packages)
+    # packages = current_order.shipments.map { |s| s.to_package }
+    @order = current_order
+    # @differentiator = Spree::Stock::Differentiator.new(current_order, packages)
     render :layout => false
   end
 

@@ -41,12 +41,12 @@ Spree::Payment.class_eval do
       transition from: ['checkout'], to: 'invalid'
     end
 
-    after_transition do |payment, transition|
-      #payment.state_changes.create!(
-      #  previous_state: transition.from,
-      #  next_state:     transition.to,
-      #  name:           'payment',
-      #)
-    end
+    # after_transition do |payment, transition|
+    #   payment.state_changes.create!(
+    #    previous_state: transition.from,
+    #    next_state:     transition.to,
+    #    name:           'payment',
+    #   )
+    # end
   end
 end
